@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}News App{% endblock %}</title>
+</head>
+<body>
+
+    <h1>News Application</h1>
+
+    {% if request.user.is_authenticated %}
+        <p>
+            Logged in as: {{ request.user.username }} ({{ request.user.role }})
+        </p>
+
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+
+        <hr>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

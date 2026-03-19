@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Reader Dashboard{% endblock %}
+
+{% block content %}
+<h2>Reader Dashboard</h2>
+
+<h3>Approved Articles</h3>
+
+{% for article in approved_articles %}
+    <div>
+        <h4>{{ article.title }}</h4>
+        <p>{{ article.summary }}</p>
+        <p>Author: {{ article.author.username }}</p>
+        <hr>
+    </div>
+{% empty %}
+    <p>No approved articles available.</p>
+{% endfor %}
+{% endblock %}
