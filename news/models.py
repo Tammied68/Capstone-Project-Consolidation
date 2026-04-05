@@ -1,6 +1,3 @@
-from django.db import models
-
-# Create your models here.
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -59,10 +56,10 @@ class Article(models.Model):
     def clean(self):
         super().clean()
 
-        if self.author and self.author.role != "journalist":
+        if self.author_id and self.author.role != "journalist":
             raise ValidationError("Only journalists can be authors of articles.")
 
-        if self.approved_by and self.approved_by.role != "editor":
+        if self.approved_by_id and self.approved_by.role != "editor":
             raise ValidationError("Only editors can approve articles.")
 
     def __str__(self):
@@ -95,7 +92,7 @@ class Newsletter(models.Model):
     def clean(self):
         super().clean()
 
-        if self.author and self.author.role != "journalist":
+        if self.author_id and self.author.role != "journalist":
             raise ValidationError("Only journalists can create newsletters.")
 
     def __str__(self):

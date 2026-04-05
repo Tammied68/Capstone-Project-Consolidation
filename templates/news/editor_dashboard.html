@@ -5,6 +5,8 @@
 {% block content %}
 <h2>Editor Dashboard</h2>
 
+<p><a href="{% url 'pending_articles' %}">View Pending Articles</a></p>
+
 <h3>Pending Articles</h3>
 
 {% for article in pending_articles %}
@@ -12,6 +14,7 @@
         <h4>{{ article.title }}</h4>
         <p>{{ article.summary }}</p>
         <p>Author: {{ article.author.username }}</p>
+        <p><a href="{% url 'approve_article' article.id %}">Approve</a></p>
         <hr>
     </div>
 {% empty %}

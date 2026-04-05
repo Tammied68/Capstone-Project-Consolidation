@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.core.mail import send_mail
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -14,6 +16,9 @@ from .serializers import ArticleSerializer
 
 @login_required
 def home(request):
+    """
+    Redirect users to their respective dashboards based on role.
+    """
     user = request.user
 
     if user.role == "reader":
@@ -28,6 +33,9 @@ def home(request):
 
 @login_required
 def reader_dashboard(request):
+    """
+    Display all approved articles to readers.
+    """
     approved_articles = Article.objects.filter(approved=True).order_by("-created_at")
     context = {
         "approved_articles": approved_articles,
@@ -37,6 +45,9 @@ def reader_dashboard(request):
 
 @login_required
 def journalist_dashboard(request):
+
+    """Display articles created by the logged-in journalist."""
+
     my_articles = Article.objects.filter(author=request.user).order_by("-created_at")
     context = {
         "my_articles": my_articles,
@@ -46,6 +57,9 @@ def journalist_dashboard(request):
 
 @login_required
 def editor_dashboard(request):
+
+    """Display all pending articles for editor review."""
+
     pending_articles = Article.objects.filter(approved=False).order_by("-created_at")
     context = {
         "pending_articles": pending_articles,
@@ -54,7 +68,10 @@ def editor_dashboard(request):
 
 
 @login_required
-def create_article(request):
+def create_article(request):   # IMPORTANT
+
+    """Allow journalists to create and submit articles for approval."""
+
     if request.user.role != "journalist":
         messages.error(request, "Only journalists can create articles.")
         return redirect("home")
@@ -100,7 +117,7 @@ def pending_articles(request):
 
 
 @login_required
-def approve_article(request, article_id):
+def approve_article(request, article_id):  # VERY IMPORTANT
     if request.user.role != "editor":
         messages.error(request, "Only editors can approve articles.")
         return redirect("home")
@@ -113,6 +130,8 @@ def approve_article(request, article_id):
         article.approved_at = timezone.now()
         article.save()
 
+        send_article_approval_email(article)
+
         messages.success(request, f'"{article.title}" has been approved.')
         return redirect("pending_articles")
 
@@ -120,6 +139,45 @@ def approve_article(request, article_id):
         request,
         "news/approve_article.html",
         {"article": article},
+    )
+
+
+def send_article_approval_email(article):
+    """
+    Send an email notification to readers subscribed to the article's
+    publisher or journalist.
+    """
+    publisher_subscribers = article.publisher.subscribed_readers.all() if article.publisher else []
+    journalist_subscribers = article.author.journalist_followers.all()
+
+    recipient_emails = {
+        user.email
+        for user in list(publisher_subscribers) + list(journalist_subscribers)
+        if user.email
+    }
+
+    if not recipient_emails:
+        return
+
+    publisher_name = article.publisher.name if article.publisher else "Independent"
+    subject = f"New approved article: {article.title}"
+    message = (
+        f"Hello,\n\n"
+        f'A new article has been approved and published.\n\n'
+        f"Title: {article.title}\n"
+        f"Author: {article.author.username}\n"
+        f"Publisher: {publisher_name}\n\n"
+        f"Summary:\n{article.summary}\n\n"
+        f"Content preview:\n{article.content[:300]}\n\n"
+        f"Thank you for subscribing."
+    )
+
+    send_mail(
+        subject=subject,
+        message=message,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=list(recipient_emails),
+        fail_silently=False,
     )
 
 
