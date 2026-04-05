@@ -1,3 +1,10 @@
+"""
+Views for the News application.
+
+Handles dashboard rendering, article creation and approval,
+email notifications, and API access to subscribed articles.
+"""
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
