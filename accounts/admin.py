@@ -4,6 +4,15 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 
 
+"""
+Admin configuration for the News application.
+
+Registers news-related models with the Django admin interface
+to allow editors and administrators to manage publishers,
+articles, newsletters, and API client subscriptions.
+"""
+
+
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     model = CustomUser

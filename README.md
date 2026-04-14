@@ -1,231 +1,188 @@
-# 📰 News Application (Django Capstone Project)
-
-# https://github.com/Tammied68/Capstone-News-Appliation
+# 📰 News Management System (Capstone Project)
+# https://github.com/Tammied68/Capstone-Project-Consolidation
 
 ## 📌 Overview
 
-This project is a full-stack **News Application** built using Django. It allows users with different roles (Reader, Journalist, Editor) to interact with articles through a structured workflow.
+This project is a Django-based News Management System developed as part of a capstone assignment. It demonstrates full-stack web development skills including authentication, role-based access control, REST APIs, documentation, version control, and containerization.
 
-The application supports:
-
-* Role-based access control
-* Article creation and approval workflow
-* Subscription-based content delivery
-* RESTful API for third-party clients
-* Email notifications on article approval
+The system supports multiple user roles and allows controlled creation, approval, and consumption of news articles.
 
 ---
 
-## 🚀 Features
+## ✨ Features
 
-### 👤 User Roles
+### 👥 User Roles
 
 * **Reader**
 
   * View approved articles
   * Subscribe to publishers and journalists
+
 * **Journalist**
 
-  * Create, edit, and manage articles
+  * Create and manage articles
+  * Submit articles for approval
+
 * **Editor**
 
-  * Review and approve articles before publication
+  * Review and approve submitted articles
+
+* **Admin**
+
+  * Full access via Django admin panel
 
 ---
 
-### 📝 Article Workflow
+### 📰 Article Workflow
 
 1. Journalist creates an article
-2. Article is marked as *pending*
+2. Article is marked as **pending**
 3. Editor reviews and approves the article
 4. Approved articles become visible to readers
-5. Email notification is sent to subscribers
 
 ---
 
-### 🔐 Authentication & Authorization
+### 🔐 Authentication
 
-* Custom user model with roles
-* Django Groups and Permissions
-* Login/logout system using Django auth
-
----
-
-### 📡 REST API
-
-Endpoint:
-
-```text
-/api/subscribed-articles/
-```
-
-Features:
-
-* Returns approved articles only
-* Filters by subscribed publishers and journalists
-* Requires API key in header:
-
-```text
-X-API-KEY: your_api_key
-```
+* Django built-in authentication system
+* Login is **username-based**
+* Role-based access control enforced
 
 ---
 
-### 📧 Email Notifications
+### 🌐 API
 
-* Triggered when an article is approved
-* Sent to users subscribed to the article’s publisher or journalist
-* Uses Django console email backend for development
-
----
-
-## 🗄 Database Design
-
-The application uses normalized models:
-
-* **CustomUser**
-* **Publisher**
-* **Article**
-* **Newsletter**
-* **APIClientSubscription**
-
-Relationships:
-
-* Users subscribe to publishers/journalists
-* Articles belong to publishers and authors
-* Editors approve articles
+* Endpoint: `/api/subscribed-articles/`
+* Returns articles based on user subscriptions
+* Requires API key via `X-API-KEY` header
 
 ---
 
-## 🧪 Testing
+## 🛠️ Tech Stack
 
-Unit tests were implemented using Django’s testing framework.
+* Python
+* Django
+* Django REST Framework
+* SQLite
+* Docker
+* Git & GitHub
+* Sphinx (documentation)
 
-Run tests:
+---
+
+## ⚙️ Setup with Virtual Environment
 
 ```bash
-python manage.py test news -v 2
-```
+# Clone the repository
+git clone https://github.com/Tammied68/Capstone-Project-Consolidation.git
 
----
+# Navigate into the project
+cd Capstone-Project-Consolidation
 
-## ⚙️ Installation & Setup
+# Create virtual environment
+python -m venv venv312
 
-### 1. Clone repository
+# Activate environment
+source venv312/bin/activate   # Mac/Linux
+venv312\Scripts\activate      # Windows
 
-```bash
-git clone <your-repo-url>
-cd news_project
-```
-
-### 2. Create virtual environment
-
-```bash
-python -m venv venv
-source venv/bin/activate  # Mac/Linux
-```
-
-### 3. Install dependencies
-
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-### 4. Run migrations
-
-```bash
-python manage.py makemigrations
+# Run migrations
 python manage.py migrate
-```
 
-### 5. Create superuser
-
-```bash
-python manage.py createsuperuser
-```
-
-### 6. Run server
-
-```bash
+# Run server
 python manage.py runserver
 ```
 
 ---
 
-## 🔑 Default Routes
+## 🐳 Running with Docker
 
-| Route                       | Description          |
-| --------------------------- | -------------------- |
-| `/accounts/login/`          | Login page           |
-| `/reader-dashboard/`        | Reader dashboard     |
-| `/journalist-dashboard/`    | Journalist dashboard |
-| `/editor-dashboard/`        | Editor dashboard     |
-| `/articles/create/`         | Create article       |
-| `/articles/pending/`        | Pending articles     |
-| `/api/subscribed-articles/` | API endpoint         |
+```bash
+# Build image
+docker build -t news_project .
 
----
-
-## 🧪 API Testing (Postman)
-
-Include header:
-
-```text
-X-API-KEY: your_api_key
+# Run container
+docker run -p 8000:8000 news_project
 ```
 
-Test cases:
+Then open:
 
-* Valid API key → returns articles
-* Missing API key → error
-* Invalid API key → error
-
----
-
-## 📸 Screenshots
-
-The following screenshots are included:
-
-* Login and role dashboards
-* Article creation
-* Editor approval workflow
-* Reader view of approved articles
-* API response
-* Unit test results
-* Email notification output
+```
+http://localhost:8000
+```
 
 ---
 
-## 🗄 MariaDB Migration
+## 🔑 Test Users
 
-The project supports migration from SQLite to MariaDB by updating the `DATABASES` configuration in `settings.py`.
+| Role       | Username    |
+| ---------- | ----------- |
+| Admin      | tammied     |
+| Reader     | reader1     |
+| Editor     | editor1     |
+| Journalist | journalist1 |
+
+> Passwords can be reset using:
+
+```
+docker exec -it <container_name> python manage.py changepassword <username>
+```
 
 ---
 
-## 🧹 Code Quality
+## 📚 Documentation
 
-* Follows PEP 8 guidelines
-* Modular and readable code
-* Defensive programming practices
-* Clear separation of concerns (models, views, templates)
+Project documentation was generated using **Sphinx** and is available in the `docs/` directory.
 
 ---
 
-## 🎯 Conclusion
+## 📦 Project Structure
 
-This project demonstrates:
+```
+accounts/       # Custom user model & roles
+news/           # Core application logic
+docs/           # Sphinx-generated documentation
+Dockerfile      # Container configuration
+requirements.txt
+README.md
+capstone.txt
+```
 
-* Full-stack Django development
-* Role-based system design
-* API development with DRF
-* Database normalization
-* Real-world workflow implementation
+---
+
+## 🔄 Version Control
+
+This project uses Git with structured branching:
+
+* `main` → final merged project
+* `docs` → documentation and docstrings
+* `container` → Docker setup
+
+---
+
+## ⚠️ Notes
+
+* Do not commit sensitive data (e.g., API keys, passwords)
+* Uses SQLite for simplicity
+* Authentication uses **username**, not email
+
+---
+
+## 📌 Capstone Submission
+
+This repository fulfills the following requirements:
+
+* Version control with Git
+* Branching strategy (`docs`, `container`)
+* Documentation using Sphinx
+* Docker containerization
+* Requirements file for dependencies
 
 ---
 
 ## 👩‍💻 Author
 
-**Tammie Davis**
-
----
-
+TammieD
