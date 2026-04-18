@@ -1,10 +1,8 @@
 """
 Database models for the News application.
 
-This module defines core content models including publishers,
-articles, newsletters, and API client subscriptions. Models enforce
-role-based constraints and support both authenticated web access
-and API consumption.
+Defines publishers, articles, newsletters, and API client subscriptions,
+including validation and permission-related constraints.
 """
 
 from django.conf import settings
@@ -13,14 +11,7 @@ from django.db import models
 
 
 class Publisher(models.Model):
-    """
-    Represents a publishing organization.
-
-    Publishers may be associated with journalists, articles,
-    newsletters, and subscribers. Articles may also be published
-    independently without an associated publisher.
-    """
-
+    """Represents a news publisher that can publish articles and newsletters."""
     name = models.CharField(max_length=150, unique=True)
     description = models.TextField(blank=True)
     website = models.URLField(blank=True)
@@ -37,14 +28,7 @@ class Publisher(models.Model):
 
 
 class Article(models.Model):
-    """
-    Represents a news article written by a journalist.
-
-    Articles require editorial approval before becoming publicly
-    visible. Each article may optionally be associated with a
-    publisher and includes metadata about its approval status.
-    """
-
+    """Represents a news article authored by a journalist and reviewed by an editor."""
     title = models.CharField(max_length=200)
     summary = models.TextField(blank=True)
     content = models.TextField()

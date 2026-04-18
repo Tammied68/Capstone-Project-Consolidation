@@ -1,10 +1,8 @@
 """
 Views for the News application.
 
-This module contains role-based dashboards, article management views,
-and a public API endpoint for retrieving approved articles. Access
-to views is restricted based on user authentication and role
-(reader, journalist, editor).
+Handles dashboard rendering, article creation and approval,
+email notifications, and API access to subscribed articles.
 """
 
 from django.contrib import messages
