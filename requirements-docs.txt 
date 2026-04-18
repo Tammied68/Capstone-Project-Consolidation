@@ -1,0 +1,5 @@
+# Documentation dependencies only (not used by Docker)
+# This file is for building Sphinx docs locally
+
+Sphinx==8.2.3        # Last version compatible with Python 3.11
+sphinx-rtd-theme     # Read the Docs HTML theme
