@@ -1,31 +1,24 @@
-FROM python:3.12-slim
+FROM python:3.11
 
-# Prevent Python from writing .pyc files and buffer stdout
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Install system dependencies required for mysqlclient
+# ✅ REQUIRED system dependencies for mysqlclient
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    gcc \
-    default-libmysqlclient-dev \
     pkg-config \
- && rm -rf /var/lib/apt/lists/*
+    default-libmysqlclient-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --upgrade pip \
- && pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt /app/
 
-# Copy Django project files
-COPY . .
+RUN python -m pip install --upgrade pip setuptools wheel \
+    && pip install --no-cache-dir -r requirements.txt
 
-# Collect static files (won't fail build if not configured)
-RUN python manage.py collectstatic --noinput || true
+COPY . /app/
 
 EXPOSE 8000
 
-# Start Django with Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "news_project.wsgi:application"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -7,6 +7,20 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
+
+    """
+    Custom user model for the News application.
+
+    Extends Django's AbstractUser to support role-based behavior
+    (reader, editor, journalist) and content subscriptions.
+
+    Fields:
+        role (str): The user's role in the system.
+        publisher (Publisher): Publisher this user belongs to (if applicable).
+        subscribed_publishers (ManyToMany): Publishers followed by the user.
+        subscribed_journalists (ManyToMany): Journalists followed by the user.
+    """
+
     class Role(models.TextChoices):
         READER = "reader", "Reader"
         EDITOR = "editor", "Editor"

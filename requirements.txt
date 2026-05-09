@@ -1,4 +1,9 @@
-Django
-gunicorn
-mysqlclient
-djangorestframework
+# This file is only for running the Django app.
+# No documentation tooling here (runtime only — used by Docker)
+
+Django==5.2.13
+
+# Database driver
+mysqlclient==2.2.8
+
+djangorestframework==3.17.1

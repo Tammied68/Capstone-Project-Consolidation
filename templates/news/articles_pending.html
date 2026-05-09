@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Pending Articles{% endblock %}
+
+{% block content %}
+<h2>Pending Articles</h2>
+
+{% for article in pending_articles %}
+    <div>
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.summary }}</p>
+        <p>Author: {{ article.author.username }}</p>
+        <p>
+            Publisher:
+            {% if article.publisher %}
+                {{ article.publisher.name }}
+            {% else %}
+                Independent
+            {% endif %}
+        </p>
+        <p><a href="{% url 'approve_article' article.id %}">Review and Approve</a></p>
+        <hr>
+    </div>
+{% empty %}
+    <p>No pending articles to review.</p>
+{% endfor %}
+{% endblock %}
