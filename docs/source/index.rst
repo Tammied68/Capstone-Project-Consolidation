@@ -1,16 +1,17 @@
+.. News Management System documentation master file, created by
+   sphinx-quickstart on Fri May  8 21:38:06 2026.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-News Management System Documentation
-===================================
+News Management System documentation
+====================================
 
-This documentation describes the Django-based News Management System
-capstone project.
+Add your content using ``reStructuredText`` syntax. See the
+`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
+documentation for details.
 
-Contents
---------
 
 .. toctree::
    :maxdepth: 2
-   :caption: Modules
+   :caption: Contents:
 
-   accounts
-   news
