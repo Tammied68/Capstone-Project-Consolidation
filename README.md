@@ -1,5 +1,7 @@
 # 📰 News Management System (Capstone Project)
-# https://github.com/Tammied68/Capstone-Project-Consolidation
+
+Repository:
+https://github.com/Tammied68/Capstone-Project-Consolidation
 
 ## 📌 Overview
 
@@ -7,7 +9,7 @@ This project is a Django-based News Management System developed as part of a cap
 
 The system supports multiple user roles and allows controlled creation, approval, and consumption of news articles.
 
----
+
 
 ## ✨ Features
 
@@ -31,7 +33,7 @@ The system supports multiple user roles and allows controlled creation, approval
 
   * Full access via Django admin panel
 
----
+
 
 ### 📰 Article Workflow
 
@@ -40,7 +42,7 @@ The system supports multiple user roles and allows controlled creation, approval
 3. Editor reviews and approves the article
 4. Approved articles become visible to readers
 
----
+
 
 ### 🔐 Authentication
 
@@ -48,7 +50,6 @@ The system supports multiple user roles and allows controlled creation, approval
 * Login is **username-based**
 * Role-based access control enforced
 
----
 
 ### 🌐 API
 
@@ -56,7 +57,6 @@ The system supports multiple user roles and allows controlled creation, approval
 * Returns articles based on user subscriptions
 * Requires API key via `X-API-KEY` header
 
----
 
 ## 🛠️ Tech Stack
 
@@ -68,7 +68,7 @@ The system supports multiple user roles and allows controlled creation, approval
 * Git & GitHub
 * Sphinx (documentation)
 
----
+
 
 ## ⚙️ Setup with Virtual Environment
 
@@ -76,11 +76,9 @@ The system supports multiple user roles and allows controlled creation, approval
 # Clone the repository
 git clone https://github.com/Tammied68/Capstone-Project-Consolidation.git
 
-# Navigate into the project
 cd Capstone-Project-Consolidation
+```
 
-# Create virtual environment
-python -m venv venv312
 
 # Activate environment
 source venv312/bin/activate   # Mac/Linux
@@ -94,54 +92,53 @@ python manage.py migrate
 
 # Run server
 python manage.py runserver
-```
 
----
 
 ## 🐳 Running with Docker
+## 🐳 Docker Verification
+
+Build:
 
 ```bash
-# Build image
 docker build -t news_project .
+```
 
-# Run container
+Run:
+
+```bash
 docker run -p 8000:8000 news_project
 ```
 
-Then open:
+Access:
 
-```
+```text
 http://localhost:8000
 ```
 
----
-
-## 🔑 Test Users
-
-| Role       | Username    |
-| ---------- | ----------- |
-| Admin      | tammied     |
-| Reader     | reader1     |
-| Editor     | editor1     |
-| Journalist | journalist1 |
-
 > Passwords can be reset using:
 
-```
 docker exec -it <container_name> python manage.py changepassword <username>
+
+
+## 📚 Documentation was generated using Sphinx.
+
+To rebuild documentation:
+
+```bash
+cd docs
+sphinx-apidoc -o source ../
+make html
 ```
 
----
+Generated files can be found in:
 
-## 📚 Documentation
-
-Project documentation was generated using **Sphinx** and is available in the `docs/` directory.
-
----
+```text
+docs/build/html/
+```
 
 ## 📦 Project Structure
 
-```
+
 accounts/       # Custom user model & roles
 news/           # Core application logic
 docs/           # Sphinx-generated documentation
@@ -149,9 +146,7 @@ Dockerfile      # Container configuration
 requirements.txt
 README.md
 capstone.txt
-```
 
----
 
 ## 🔄 Version Control
 
@@ -161,15 +156,11 @@ This project uses Git with structured branching:
 * `docs` → documentation and docstrings
 * `container` → Docker setup
 
----
-
 ## ⚠️ Notes
 
 * Do not commit sensitive data (e.g., API keys, passwords)
 * Uses SQLite for simplicity
 * Authentication uses **username**, not email
-
----
 
 ## 📌 Capstone Submission
 
@@ -180,8 +171,6 @@ This repository fulfills the following requirements:
 * Documentation using Sphinx
 * Docker containerization
 * Requirements file for dependencies
-
----
 
 ## 👩‍💻 Author
 
