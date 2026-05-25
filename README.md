@@ -87,6 +87,18 @@ venv312\Scripts\activate      # Windows
 # Install dependencies
 pip install -r requirements.txt
 
+## Database Configuration
+
+This project uses SQLite as the default database.
+
+Database migrations can be applied using:
+
+```bash
+python manage.py migrate
+```
+
+No additional database server configuration is required.
+
 # Run migrations
 python manage.py migrate
 
