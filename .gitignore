@@ -143,3 +143,6 @@ __pycache__/
 Capstone-Project-Consolidation/
 Capstone-Project-Consolidation/
 .DS_Store
+__pycache__/
+*.pyc
+ecommerce_part1_project-/
