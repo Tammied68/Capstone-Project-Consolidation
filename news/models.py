@@ -59,3 +59,27 @@ class Article(models.Model):
         related_name="articles_approved",
         limit_choices_to={"role": "editor"},
     )
+
+class APIClientSubscription(models.Model):
+    """Stores API client subscriptions for publisher/journalist article access."""
+
+    client_name = models.CharField(max_length=150, unique=True)
+    api_key = models.CharField(max_length=255, unique=True)
+    subscribed_journalists = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name="api_followers",
+        limit_choices_to={"role": "journalist"},
+    )
+    subscribed_publishers = models.ManyToManyField(
+        Publisher,
+        blank=True,
+        related_name="api_subscribers",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["client_name"]
+
+    def __str__(self):
+        return self.client_name
